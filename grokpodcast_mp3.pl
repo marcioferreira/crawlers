@@ -15,6 +15,8 @@ for (1 .. 9){
     my $res = $items->scrape( URI->new("http://grokpodcast.com/page/$_") );
     for my $post (@{$res->{posts}}) {
         my ($file) = ($post->{link} =~ /\/grokpodcast-(.*)$/);
+        $file = "grokpodcast/$file";
+        next if -f $file;
       $fork->start and next;
         say "Downloading... $file";
         getstore( $post->{link}, $file );
